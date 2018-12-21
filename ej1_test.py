@@ -68,28 +68,29 @@ class TestStringMethods(unittest.TestCase):
                 lower_side = lower_side + sp.integrate(f, (x, lower_bound, upper_bound))
             print(upper_side, lower_side)
             masa = upper_side / lower_side
-            print("MASA", masa)
             return masa
 
         res_ej2 = {'M': 0.5, 'H': 0.25, 'VH': 0.10000000000000009}
         functions_ej2 = [
             ((x - 4), 4, 4.5),
-            ((0.5), 4.5, 7),
+            (res_ej2['M'], 4.5, 7),
             ((-0.25 * x + 2.25), 7, 8),
-            ((0.25), 8, 9.25),
+            (res_ej2['H'], 8, 9.25),
             ((-0.33 * x + 3.33), 9.25, 9.78),
-            (0.10, 9.78, 10),
+            (res_ej2['VH'], 9.78, 10),
         ]
 
         masa_ej2 = calculate_masa(functions_ej2)
+        print("masa_ej2", masa_ej2)
 
         res_ej3 = {'M': 0.25}
         functions_ej3 = [
             ((x - 4), 4, 4.25),
-            ((0.25), 4.5, 8),
+            (res_ej3['M'], 4.5, 8),
             ((-0.25 * x + 2.25), 8, 9),
         ]
         masa_ej3 = calculate_masa(functions_ej3)
+        print("masa_ej3", masa_ej3)
         pass
 
     def test_ej3(self):
