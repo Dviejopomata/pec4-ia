@@ -44,9 +44,11 @@ class Point:
     def y_int(self, target):  # <= here's the magic
         return self.y - self.slope(target) * self.x
 
+    def same_y(self, target):
+        return self.m(target) == 0
+
     def m(self, target):
         n = (target.y - self.y) / (target.x - self.x)
-        print("m", n)
         return n
         # return math.degrees(math.atan(n))
 
@@ -61,6 +63,13 @@ class Point:
             sign = '+'
 
         return 'y = {:0.2f}x {} {:0.2f}'.format(slope, sign, y_int)
+
+    def line_equation_solve(self, target, x):
+        slope = self.slope(target)
+
+        y_int = self.y_int(target)
+        return (slope * x) + y_int
+        # 'y = {:0.2f}x {} {:0.2f}'.format(slope, sign, y_int)
 
     def line_function(self, target):
         slope = self.slope(target)
