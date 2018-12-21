@@ -2,11 +2,15 @@ import base64
 import io
 import json
 import math
+from shutil import copyfile
+
+from docxmerge_sdk.main import Docxmerge
 
 import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import savefig
 
+from config import docxmerge_settings
 from point import Point
 
 VL = 'VL'
@@ -424,9 +428,13 @@ def ej3(vars):
 ej2_vars = (0.5, 11, 6, 6)
 ej3_vars = (2, 2, 4, 4)
 if __name__ == '__main__':
+    docxmerge = Docxmerge(docxmerge_settings['apikey'])
+
     # rules = ej2(ej2_vars)
     # print(rules)
     f = open("./file.json", "w")
     data = pecjson()
+    o = docxmerge.merge_template(docxmerge_settings['tenant_id'], open("./PEC4.docx"), data)
+    copyfile(o, "./PEC4_out.docx")
     f.write(json.dumps(data, indent=4))
     f.close()

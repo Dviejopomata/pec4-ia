@@ -2,3 +2,5 @@ venv
 .idea
 __pycache*
 tmp
+
+config.py
