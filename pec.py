@@ -279,6 +279,16 @@ bloque_b2 = [
 ]
 
 
+def get_max_dict(points):
+    x_arr = []
+    y_arr = []
+    for key, value in points.items():
+        for point in value:
+            (x, y) = point
+            x_arr.append(x)
+            y_arr.append(y)
+    return max(x_arr), min(x_arr), max(y_arr), min(y_arr)
+
 def get_max(points):
     x_arr = []
     y_arr = []
@@ -332,10 +342,12 @@ def get_bloque_b1_json(vars):
         var_outb1_y = None
         results = [var_a_y, var_b_y]
         print_out = [result for result in results if result is not None and result != 0]
+        asterisco = ""
         if len(print_out) == 2:
+            asterisco = " * "
             var_outb1_y = min(var_a_y, var_b_y)
         success_rules.append({
-            'n': f'{i:02}',
+            'n': f'{i:02}{asterisco}',
             'vara': '%s %s' % (var_a_letra, format_number_bloque(var_a_y)),
             'varb': '%s %s' % (var_b_letra, format_number_bloque(var_b_y)),
             'outb1': '%s %s' % (var_outb1_letra, format_number_bloque(var_outb1_y)),
@@ -372,10 +384,12 @@ def get_bloque_b2_json(vars, b1):
         var_out_letra_y = None
         results = [var_c_y, var_d_y, var_outb1_y]
         print_out = [result for result in results if result is not None and result != 0]
+        asterisco = ""
         if len(print_out) == 3:
+            asterisco = " * "
             var_out_letra_y = min(var_c_y, var_d_y, var_outb1_y)
         success_rules.append({
-            "n": f'{i:02}',
+            "n": f'{i:02}{asterisco}',
             'outb1': '%s %s' % (var_outb1_letra, format_number_bloque(var_outb1_y)),
             'varc': '%s %s' % (var_c_letra, format_number_bloque(var_c_y)),
             'vard': '%s %s' % (var_d_letra, format_number_bloque(var_d_y)),
@@ -416,15 +430,6 @@ def pecjson():
     return data
 
 
-def ej2(vars):
-    (var_a_x, var_b_x, var_c_x, var_d_x) = vars
-    bloque_b1_success = get_bloque_b1(vars)
-
-
-def ej3(vars):
-    (vara, varb, varc, vard) = vars
-
-
 ej2_vars = (0.5, 11, 6, 6)
 ej3_vars = (2, 2, 4, 4)
 if __name__ == '__main__':
@@ -436,5 +441,6 @@ if __name__ == '__main__':
     data = pecjson()
     o = docxmerge.merge_template(docxmerge_settings['tenant_id'], open("./PEC4.docx"), data)
     copyfile(o, "./PEC4_out.docx")
-    f.write(json.dumps(data, indent=4))
-    f.close()
+
+    o = docxmerge.render_file(docxmerge_settings['tenant_id'], open("./PEC4.docx"), data)
+    copyfile(o, "./PEC4_out.pdf")

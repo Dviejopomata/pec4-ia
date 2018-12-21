@@ -70,6 +70,16 @@ class Point:
         y_int = self.y_int(target)
         return (slope * x) + y_int
         # 'y = {:0.2f}x {} {:0.2f}'.format(slope, sign, y_int)
+        # y = slope * x + y_int
+        # x = y - y_int / slope
+
+    def line_equation_solve_y(self, target, y):
+        slope = self.slope(target)
+        if slope == 0:
+            return None
+        y_int = self.y_int(target)
+        return (y - y_int) / slope
+        # return (slope * x) + y_int
 
     def line_function(self, target):
         slope = self.slope(target)
